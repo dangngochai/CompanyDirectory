@@ -29,7 +29,7 @@
 
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-	$query = 'SELECT id, name, locationID FROM department WHERE id = ' . $_REQUEST['id'];
+	$query = 'SELECT id, name, locationID FROM department WHERE id = ' . $_POST['id'];
 
 	$result = $conn->query($query);
 	

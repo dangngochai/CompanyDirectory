@@ -1,8 +1,7 @@
 <?php
 
 	// example use from browser
-	// use insertDepartment.php first to create new dummy record and then specify it's id in the command below
-	// http://localhost/companydirectory/libs/php/deleteDepartmentByID.php?id= <id>
+	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=1
 
 
 	$executionStartTime = microtime(true);
@@ -31,7 +30,7 @@
 
 	// $_REQUEST used for development / debugging. Remember to cange to $_POST for production
 
-	$query = 'DELETE FROM department WHERE id = ' . $_POST['id'];
+	$query = 'INSERT INTO location (id, name) VALUES('. $_POST['id'] . ',"' . $_POST["name"] . '")';
 
 	$result = $conn->query($query);
 	
@@ -59,5 +58,8 @@
 	mysqli_close($conn);
 
 	echo json_encode($output); 
+
+	header("Location: {$_SERVER['HTTP_REFERER']}");
+	exit;
 
 ?>

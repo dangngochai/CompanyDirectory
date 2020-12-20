@@ -1,11 +1,21 @@
 .header {
   display: flex;
+  margin-top: 0;
+  padding:0;
+  margin-left: 35%;
+
 }
 
-body {
-  padding: 5em 10em;
+.center {
+  margin-left: 35%;
 }
 
+#logo {
+  margin: auto;
+  max-width: 100%;
+  padding: 0;
+  z-index: -1;
+}
 
 /* Dropdown Button */
   .dropbtn {
@@ -29,7 +39,6 @@ body {
   /* The search field */
   #myInput {
     box-sizing: border-box;
-    background-image: url('searchicon.png');
     background-position: 14px 12px;
     background-repeat: no-repeat;
     font-size: 16px;
@@ -79,9 +88,10 @@ body {
   /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
   .show {display:block;}
 
-  input[type="search"] {
+  #searchBox {
     position: relative;
     max-width: 50%;
+    min-width: 150px;
     height:30px;
     width:25em;
     border-radius: 10px;
@@ -95,27 +105,78 @@ body {
     display: inline-block;
   }
   
-  input[type="search"]:focus {
+  #searchBox:focus {
     border:thin solid lightblue;
   }
 
-.cards {
-    margin-top: 4em;
+.card-columns {
+    margin-top: 5em;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
-    width: 80%;
     list-style-type: none;
 }
  
 .usercard {
     flex: 1 0 500px;
     min-width: 300px;
+    max-width: 350px;
     box-sizing: border-box;
     margin: 1rem .25em;
     border: 2px solid lightgray;
     border-radius: 5px;
     box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
 	  outline:none;
+}
+
+@media (min-width: 34em) {
+  .card-columns {
+      -webkit-column-count: 2;
+      -moz-column-count: 2;
+      column-count: 2;
+  }
+  .usercard {
+    max-width: calc(50% -  1em);
+ }
+}
+
+@media (min-width: 48em) {
+  .card-columns {
+      -webkit-column-count: 3;
+      -moz-column-count: 3;
+      column-count: 3;
+  }
+
+  .usercard {
+    max-width: calc(33% -  1em);
+ }
+
+}
+
+@media (min-width: 62em) {
+  .card-columns {
+      -webkit-column-count: 4;
+      -moz-column-count: 4;
+      column-count: 4;
+  }
+
+  .usercard {
+    max-width: calc(25% - 1em);
+}
+}
+
+@media (min-width: 75em) {
+  .card-columns {
+      -webkit-column-count: 5;
+      -moz-column-count: 5;
+      column-count: 5;
+  }
+
+  .usercard {
+    max-width: calc(20% - 1em);
+  }
+
 }
 
 .photo {
@@ -149,26 +210,6 @@ body {
   border:thin solid lightblue;
 }
 
-@media screen and (min-width: 40em) {
-  .usercard {
-     max-width: calc(50% -  1em);
-  }
-
-  body {
-    padding: 5em 1em;
-  }
-}
-
-@media screen and (min-width: 60em) {
-  .usercard {
-      max-width: calc(25% - 1em);
-  }
-
-  body {
-    padding: 5em 2em;
-  }
-}
-
 
 ul li:nth-child(n+17) {
   display:none;
@@ -179,4 +220,10 @@ ul li {
 span {
   cursor: pointer;
   color: #f00;
+}
+
+@media (max-height: 640px) {
+  ul li:nth-child(n+5) {
+    display:none;
+  }
 }

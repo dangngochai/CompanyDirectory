@@ -1,79 +1,332 @@
 var department_list, location_list;
 
+//function to add new department
+function addDepartment(name,locationID) {
+  $.ajax({
+    url: "libs/php/insertDepartment.php",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      name: name,
+      locationID: locationID
+    },
+    async: false,
+    success: function(result) {
+      alert('Department added!')                
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  })
+};
+
+//function to add new location
+function addLocation(id,name) {
+  $.ajax({
+    url: "libs/php/insertLocation.php",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      id: id,
+      name: name
+    },
+    async: false,
+    success: function(result) {
+      alert('Location added!')                
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  })
+};
+
+//function to add new employee
+function addEmployee(id, firstName, lastName, jobTitle, email, departmentID) {
+  $.ajax({
+    url: "libs/php/insertEmployee.php",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      jobTitle: jobTitle,
+      email: email,
+      departmentID: departmentID
+    },
+    async: false,
+    success: function(result) {
+      alert('Employee added!')                
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  })
+};
+
+//function to get employees in a department
+function getEmployeesByDepartment(departmentID) {
+  var employees = [];
+  $.ajax({
+    url: "libs/php/getAllEmployeesByDepartment.php",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      departmentID: departmentID
+    },
+    async: false,
+    success: function(result) {
+      for (i = 0; i < result['data'].length; i++) {
+          employees.push(result['data'][i]['id']);
+      }
+                    
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  })
+  return employees;
+};
+
+//function to get employees in a location
+function getEmployeesByLocation(locationID) {
+  var employees = [];
+  $.ajax({
+    url: "libs/php/getAllEmployeesByLocation.php",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      locationID: locationID
+    },
+    async: false,
+    success: function(result) {
+      for (i = 0; i < result['data'].length; i++) {
+          employees.push(result['data'][i]['id']);
+      }
+                    
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  })
+  return employees;
+};
+
+//function to get all the departments
+function getAllDepartments() {
+  var department_list = [];
+      department_list['name']=[];
+      department_list['id']=[];
+  $.ajax({
+    url: "libs/php/getAllDepartments.php",
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    success: function(result) {
+        for (i = 0; i < result['data'].length; i++) {
+          if (!department_list['name'].includes(result['data'][i]['name'])) {
+            department_list['name'].push(result['data'][i]['name']);
+            department_list['id'].push(result['data'][i]['id']);
+          }
+        }
+        
+        department_list.sort(function(a, b) {
+          var textA = a.name.toUpperCase();
+          var textB = b.name.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  });
+  return department_list;
+}
+
+//function to get all the locations
+function getAllLocations() {
+  var location_list = [];
+      location_list['name']=[];
+      location_list['id']=[];
+
+  $.ajax({
+    url: "libs/php/getAllLocations.php",
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    success: function(result) {
+        for (i = 0; i < result['data'].length; i++) {
+          if (!location_list['name'].includes(result['data'][i]['name'])) {
+            location_list['name'].push(result['data'][i]['name']);
+            location_list['id'].push(result['data'][i]['id']);
+          }
+        }
+        
+        location_list.sort(function(a, b) {
+          var textA = a.name.toUpperCase();
+          var textB = b.name.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  });
+  return location_list;
+}
+
+//function to get all the employees
+function getAllEmployees() {
+  var employee_list = [];
+      employee_list['name']=[];
+      employee_list['id']=[];
+
+  $.ajax({
+    url: "libs/php/getAllEmployees.php",
+    type: 'POST',
+    dataType: 'json',
+    async: false,
+    success: function(result) {
+        for (i = 0; i < result['data'].length; i++) {
+          if (!employee_list['id'].includes(result['data'][i]['id'])) {
+            employee_list['name'].push(result['data'][i]['firstName'] + ' ' + result['data'][i]['lastName']);
+            employee_list['id'].push(result['data'][i]['id']);
+          }
+        }
+        
+        employee_list.sort(function(a, b) {
+          var textA = a.name.toUpperCase();
+          var textB = b.name.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+      });
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  });
+  return employee_list;
+}
+
+
+
+//function to trigger when click filter button
 function myFunction() {
     $("#department").html('');
     $("#location").html('');
-    $.ajax({
-      url: "libs/php/getAllDepartments.php",
-      type: 'POST',
-      dataType: 'json',
-      async: false,
-      success: function(result) {
-          department_list=[];
-          console.log(result['data'][0]['id']);
-          for (i = 0; i < result['data'].length; i++) {
-            if (!department_list.includes(result['data'][i]['name'])) {
-              department_list.push(result['data'][i]['name']);
-            }
-          }
-          department_list.sort((a, b) => a.localeCompare(b));
-          var $dropdown = $("#department");
-          for (i = 0; i < department_list.length; i++) {
-              $dropdown.append($("<a />").val(department_list[i]).text(department_list[i]));
-          }                        
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          //error code
-          alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-          $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-          console.log('jqXHR:');
-          console.log(jqXHR);
-          console.log('textStatus:');
-          console.log(textStatus);
-          console.log('errorThrown:');
-          console.log(errorThrown);
-      }
-    });
-
-    $.ajax({
-      url: "libs/php/getAllLocations.php",
-      type: 'POST',
-      dataType: 'json',
-      async: false,
-      success: function(result) {
-          location_list=[];
-          console.log(result['data'][0]['id']);
-          for (i = 0; i < result['data'].length; i++) {
-            if (!location_list.includes(result['data'][i]['name'])) {
-              location_list.push(result['data'][i]['name']);
-            }
-          }
-          location_list.sort((a, b) => a.localeCompare(b));
-          var $dropdown = $("#location");
-          for (i = 0; i < location_list.length; i++) {
-              $dropdown.append($("<a />").val(location_list[i]).text(location_list[i]));
-          }                        
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          //error code
-          alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-          $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-          console.log('jqXHR:');
-          console.log(jqXHR);
-          console.log('textStatus:');
-          console.log(textStatus);
-          console.log('errorThrown:');
-          console.log(errorThrown);
-      }
-    });
+    var department_list = getAllDepartments();
+    var $dropdown = $("#department");
+    //add all the departments into the filter list
+    for (i = 0; i < department_list['id'].length; i++) {
+      $dropdown.append($('<a data-id="' + (department_list['id'][i]) + '" class="department" href="javascript:void(0)"/>').val(department_list['id'][i]).text(department_list['name'][i]));
+    }                       
+    var location_list = getAllLocations();
+    var $dropdown = $("#location");
+    //add all the locations into the filter list
+    for (i = 0; i < location_list['id'].length; i++) {
+      $dropdown.append($('<a data-id="' + (location_list['id'][i]) + '" class="location" href="javascript:void(0)"/>').val(location_list['id'][i]).text(location_list['name'][i]));
+    }                        
+ 
 
     document.getElementById("myDropdown").classList.toggle("show");
-  }
-  
+    $('.department').click(function(e){
+    var id = $(this).data('id');
+    var employeesDepartmentID = [];
+    employeesDepartmentID = getEmployeesByDepartment(id);
+    $('#cards li').hide();
+    //show all the user cards from selected department
+    for (i = 0; i < employeesDepartmentID .length; i++) {
+      $('#'+ employeesDepartmentID [i] + '.usercard').show();
+    }
+    $('span ').hide();
+    });
+
+    $('.location').click(function(e){
+    var id = $(this).data('id');
+    var employeesLocationID = [];
+    employeesLocationID = getEmployeesByLocation(id);
+    $('#cards li').hide();
+     //show all the user cards from selected location
+    for (i = 0; i < employeesLocationID.length; i++) {
+      $('#'+ employeesLocationID[i] + '.usercard').show();
+    }
+    $('span ').hide();
+    });
+}
+  //function to auto search for department or location name from filter list
   function filterFunction() {
-    var input, filter, ul, li, a, i;
+    var input, filter, a, i;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
     div = document.getElementById("myDropdown");
@@ -88,6 +341,8 @@ function myFunction() {
     }
   }
 
+  
+
 $(document).ready(function() {
     $.ajax({
       url: "libs/php/getAll.php",
@@ -97,11 +352,14 @@ $(document).ready(function() {
       },
       success: function(result) {
         html='';
-        for (i = 0; i < result['data'].length; i++) {
+        var $employees = $("#employees");
+        //add all the user cards 
+        for (i = 0; i < result['data'].length; i++) {         
+          $employees.append($("<option>").attr('data-value', result['data'][i]['id']).val(result['data'][i]['firstName'] + ' ' + result['data'][i]['lastName']));
           if (!result['data'][i]['photo']) {
             photo = 'user.png';
           };
-          html += `<li class="usercard">
+          html += `<li class="usercard" id="${result['data'][i]['id']}">
                       <div class="photo">
                           <img src="${photo}" alt="avatar" width="50" height="50">
                       </div>
@@ -126,7 +384,8 @@ $(document).ready(function() {
                                     </h2>
                                     <h4 class="text-primary">
                                         <strong>${result['data'][i]['jobTitle']}</strong>
-                                          ${result['data'][i]['department']}
+                                        <br>
+                                        ${result['data'][i]['department']}
                                     </h4>
                         
                                     <!--Accordion wrapper-->
@@ -191,7 +450,7 @@ $(document).ready(function() {
                                       <div class="text-center">
                         
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button class="btn btn-primary">Edit detail
+                                        <button class="btn btn-primary" value="${result['data'][i]['id']}" onClick="edit_detail(this)">Edit detail
                                           <i class="fas fa-edit ml-2" aria-hidden="true"></i>
                                         </button>
                                       </div>
@@ -206,7 +465,7 @@ $(document).ready(function() {
 
                         <p class="card-title" >
                           <small>
-                            <strong>${result['data'][i]['department']}</strong>
+                            <strong>${result['data'][i]['jobTitle']}</strong>
                           </small>
                         </p>
                       </div>
@@ -228,34 +487,9 @@ $(document).ready(function() {
         console.log(errorThrown);
       }
     }); 		
-    
-   /* $('#searchBox').autocomplete({
-        source:$.map(country_list, function (value) {
-                 return {
-                     label: value.name,
-                     value: value.code
-                 }
-             }),
-         
-        minLength:0,
-        delay:0,
-        position:{
-        collision:"fit",
-        },
-        select:handleSearchSubmit
-    })
-    //to get data for the country selected by searchBox
-    function handleSearchSubmit(event, ui) {
-        $('#searchBox').val(ui.item.label);
-        selectedCountry = (ui.item.value).toString();
-        getData(selectedCountry);
-        
-        return false;
-    }*/
-
-
 });
 
+//to show all the user cards when click show more
 $(function () {
   $('span').click(function () {
       $('#cards li:hidden').show();
@@ -265,12 +499,158 @@ $(function () {
   });
 });
 
-  
-/*$('#select-change').addEventListener('change', function onSelect(e) {
-  confirmvalue= $('#select-change').value;
+//function for search box to search for a user card
+$('#searchBox').on('change', function (e) {
+  var shownVal = document.getElementById("searchBox").value;
+  var employeeID = document.querySelector("#employees option[value='"+shownVal+"']").dataset.value;
+  $('#cards li').hide();
+  $('#'+ employeeID + '.usercard').show();
+  $('span ').hide();
+
 });
-$('#select-dialog').addEventListener('close', function onClose() {
-  if (confirmvalue == "add-employee") {
-    $('#employee-dialog').dialog();
+
+//activate correct modal when user click add new button
+$('#select').on('click', function (e) {
+  var shownVal = document.getElementById("select-change").value;
+  if (shownVal == "add-department") {
+    $('#add-department').modal('show');
+  } else if (shownVal == "add-location") {
+    $('#add-location').modal('show');
+  } else if (shownVal == "add-employee"){
+    $('#add-employee').modal('show');
   }
-});*/
+});
+
+//show the list of records when user select from delete menu
+$('#select-delete').on('change', function (e) {
+  var shownVal = document.getElementById("select-delete").value;
+  var $dropdown = $("#value-delete");
+  $dropdown.empty();
+  if (shownVal == "delete-department") {
+    var department_list = getAllDepartments();
+    for (i = 0; i < department_list['id'].length; i++) {
+      $dropdown.append($('<option/>').val(department_list['id'][i]).text(department_list['name'][i]));
+    }       
+  } else if (shownVal == "delete-location") {
+    var location_list = getAllLocations();
+    for (i = 0; i < location_list['id'].length; i++) {
+      $dropdown.append($('<option/>').val(location_list['id'][i]).text(location_list['name'][i]));
+    }  
+  } else if (shownVal == "delete-employee"){
+    var employee_list = getAllEmployees();
+    for (i = 0; i < employee_list['id'].length; i++) {
+      $dropdown.append($('<option/>').val(employee_list['id'][i]).text(employee_list['name'][i]));
+    }
+  }
+});
+
+//when user click delete button
+$('#delete-item').on('click', function (e) {
+  var shownVal = document.getElementById("select-delete").value;
+  var id = document.getElementById("value-delete").value;
+  if (shownVal == "delete-department") {
+    if(confirm("Are you sure you want to remove this department?"))
+      {
+        $.ajax({
+          url:"libs/php/deleteDepartmentByID.php",
+          method:"POST",
+          data:{id:id},
+          success:function(data){
+            alert('Department deleted!');
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            //error code
+            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+    
+            $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+            console.log('jqXHR:');
+            console.log(jqXHR);
+            console.log('textStatus:');
+            console.log(textStatus);
+            console.log('errorThrown:');
+            console.log(errorThrown);
+          }
+        });
+      }
+  } else if (shownVal == "delete-location") {
+    if(confirm("Are you sure you want to remove this location?"))
+      {
+        $.ajax({
+          url:"libs/php/deleteLocationByID.php",
+          method:"POST",
+          data:{id:id},
+          success:function(data){
+            alert('Location deleted!');
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            //error code
+            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+    
+            $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+            console.log('jqXHR:');
+            console.log(jqXHR);
+            console.log('textStatus:');
+            console.log(textStatus);
+            console.log('errorThrown:');
+            console.log(errorThrown);
+          }
+        });
+      }
+  } else if (shownVal == "delete-employee"){
+    {
+      $.ajax({
+        url:"libs/php/deleteEmployeeByID.php",
+        method:"POST",
+        data:{id:id},
+        success:function(result){
+          alert('Employee deleted!');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          //error code
+          alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+  
+          $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+          console.log('jqXHR:');
+          console.log(jqXHR);
+          console.log('textStatus:');
+          console.log(textStatus);
+          console.log('errorThrown:');
+          console.log(errorThrown);
+        }
+      });
+    }
+  }
+});
+
+//when user click edit detail for a card
+function edit_detail(obj) {
+  var id = obj.value;
+  $.ajax({
+    url: "libs/php/getDetailByID.php",
+    type: 'POST',
+    data:{id:id},
+    dataType: 'json',
+    async: false,
+    success: function(result) {
+        $('#id_edit').attr("value", id);
+        $('#firstName_edit').attr("value",result['data'][0]['firstName']);
+        $('#lastName_edit').attr("value",result['data'][0]['lastName']);
+        $('#jobTitle_edit').attr("value",result['data'][0]['jobTitle']);
+        $('#email_edit').attr("value",result['data'][0]['email']);
+        $('#departmentID_edit').attr("value",result['data'][0]['departmentID']);
+        $('#edit-employee').modal('show');
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        //error code
+        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        console.log('jqXHR:');
+        console.log(jqXHR);
+        console.log('textStatus:');
+        console.log(textStatus);
+        console.log('errorThrown:');
+        console.log(errorThrown);
+    }
+  });
+}
