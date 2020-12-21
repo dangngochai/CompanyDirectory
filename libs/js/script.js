@@ -551,36 +551,70 @@ $('#delete-item').on('click', function (e) {
   if (shownVal == "delete-department") {
     if(confirm("Are you sure you want to remove this department?"))
       {
-        $.ajax({
-          url:"libs/php/deleteDepartmentByID.php",
-          method:"POST",
-          data:{id:id},
-          success:function(data){
-            alert('Department deleted!');
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            //error code
-            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-    
-            $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-            console.log('jqXHR:');
-            console.log(jqXHR);
-            console.log('textStatus:');
-            console.log(textStatus);
-            console.log('errorThrown:');
-            console.log(errorThrown);
-          }
-        });
+        var employeesDepartment = getEmployeesByDepartment(id);
+        if (employeesDepartment.length < 1) {
+          $.ajax({
+            url:"libs/php/deleteDepartmentByID.php",
+            method:"POST",
+            data:{id:id},
+            success:function(data){
+              alert('Department deleted!');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              //error code
+              alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+      
+              $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+              console.log('jqXHR:');
+              console.log(jqXHR);
+              console.log('textStatus:');
+              console.log(textStatus);
+              console.log('errorThrown:');
+              console.log(errorThrown);
+            }
+          });
+        } else {
+          alert('Can not delete Department with employee')
+        }
       }
   } else if (shownVal == "delete-location") {
-    if(confirm("Are you sure you want to remove this location?"))
+      if(confirm("Are you sure you want to remove this location?"))
+        {
+          var employeesLocation = getEmployeesByLocation(id);
+          if (employeesLocation.length < 1) {
+            $.ajax({
+              url:"libs/php/deleteLocationByID.php",
+              method:"POST",
+              data:{id:id},
+              success:function(data){
+                alert('Location deleted!');
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                //error code
+                alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+        
+                $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+                console.log('jqXHR:');
+                console.log(jqXHR);
+                console.log('textStatus:');
+                console.log(textStatus);
+                console.log('errorThrown:');
+                console.log(errorThrown);
+              }
+            });
+          } else {
+            alert('Can not delete Location with employee')
+          }
+        }
+  } else if (shownVal == "delete-employee"){
+      if(confirm("Are you sure you want to remove this employee?"))
       {
         $.ajax({
-          url:"libs/php/deleteLocationByID.php",
+          url:"libs/php/deleteEmployeeByID.php",
           method:"POST",
           data:{id:id},
-          success:function(data){
-            alert('Location deleted!');
+          success:function(result){
+            alert('Employee deleted!');
           },
           error: function(jqXHR, textStatus, errorThrown) {
             //error code
@@ -596,31 +630,9 @@ $('#delete-item').on('click', function (e) {
           }
         });
       }
-  } else if (shownVal == "delete-employee"){
-    {
-      $.ajax({
-        url:"libs/php/deleteEmployeeByID.php",
-        method:"POST",
-        data:{id:id},
-        success:function(result){
-          alert('Employee deleted!');
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          //error code
-          alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-  
-          $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-          console.log('jqXHR:');
-          console.log(jqXHR);
-          console.log('textStatus:');
-          console.log(textStatus);
-          console.log('errorThrown:');
-          console.log(errorThrown);
-        }
-      });
     }
-  }
 });
+
 
 //when user click edit detail for a card
 function edit_detail(obj) {
@@ -651,6 +663,32 @@ function edit_detail(obj) {
         console.log(textStatus);
         console.log('errorThrown:');
         console.log(errorThrown);
+    }
+  });
+
+  $('#delete_edit').on('click', function (e) {
+    if(confirm("Are you sure you want to remove this employee?"))
+    {
+      $.ajax({
+        url:"libs/php/deleteEmployeeByID.php",
+        method:"POST",
+        data:{id:id},
+        success:function(result){
+          alert('Employee deleted!');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          //error code
+          alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+  
+          $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+          console.log('jqXHR:');
+          console.log(jqXHR);
+          console.log('textStatus:');
+          console.log(textStatus);
+          console.log('errorThrown:');
+          console.log(errorThrown);
+        }
+      });
     }
   });
 }

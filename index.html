@@ -13,7 +13,7 @@
     <title>Company Directory</title>
 </head>
 <body>
-    <img id="logo" src="logo.PNG" alt="logo" width="450px" height="150px">
+    <img id="logo" src="logo.PNG" alt="logo" width="200px" height="50px"> <br>
     <div class= "header">
         <input list="employees" id="searchBox" placeholder="Search..">
         <datalist id="employees">
@@ -76,10 +76,10 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="row">
-              <form action="libs/php/insertDepartment.php">
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name"><br>
-                <label for="lname">Location ID:</label><br>
+              <form action="libs/php/insertDepartment.php" method="POST">
+                <label for="departmentName">Name:</label><br>
+                <input type="text" id="departmentName" name="departmentName"><br>
+                <label for="locationID">Location ID:</label><br>
                 <input type="text" id="locationID" name="locationID"><br><br>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <input type="submit" class="btn btn-primary" value="Submit">
@@ -96,11 +96,11 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="row">
-              <form action="libs/php/insertLocation.php">
-                <label for="id">Location ID:</label><br>
-                <input type="text" id="id" name="id"><br>
-                <label for="lname">Location Name:</label><br>
-                <input type="text" id="name" name="name"><br><br>
+              <form action="libs/php/insertLocation.php" method="POST">
+                <label for="locaID">Location ID:</label><br>
+                <input type="text" id="locaID" name="locaID"><br>
+                <label for="locationName">Location Name:</label><br>
+                <input type="text" id="locationName" name="locationName"><br><br>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <input type="submit" class="btn btn-primary" value="Submit">
               </form> 
@@ -116,9 +116,9 @@
         <div class="modal-content">
           <div class="modal-body">
             <div class="row">
-              <form action="libs/php/insertEmployee.php">
-                <label for="id">ID:</label><br>
-                <input type="text" id="id" name="id"><br>
+              <form action="libs/php/insertEmployee.php" method="POST">
+                <label for="employeeID">ID:</label><br>
+                <input type="text" id="employeeID" name="employeeID"><br>
                 <label for="firstName">First Name:</label><br>
                 <input type="text" id="firstName" name="firstName"><br>
                 <label for="lastName">Last Name:</label><br>
@@ -186,21 +186,22 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-body">
-            <div class="row">
-              <form action="libs/php/updateEmployee.php" method="POST">
-                <label for="id_edit">ID:</label><br>
+            <div class="row card-body">
+              <form action="libs/php/updateEmployee.php" method="POST" class="center_div">
+                <label for="id_edit"><strong>ID:</strong></label><br>
                 <input type="text" id="id_edit" name="id_edit" readonly><br>
-                <label for="firstName_edit">First Name:</label><br>
+                <label for="firstName_edit"><strong>First Name:</strong></label><br>
                 <input type="text" id="firstName_edit" name="firstName_edit"><br>
-                <label for="lastName_edit">Last Name:</label><br>
+                <label for="lastName_edit"><strong>Last Name:</strong></label><br>
                 <input type="text" id="lastName_edit" name="lastName_edit"><br>
-                <label for="jobTitle_edit">Job Title:</label><br>
+                <label for="jobTitle_edit"><strong>Job Title:</strong></label><br>
                 <input type="text" id="jobTitle_edit" name="jobTitle_edit"><br>
-                <label for="email_edit">Email:</label><br>
+                <label for="email_edit"><strong>Email:</strong></label><br>
                 <input type="text" id="email_edit" name="email_edit"><br>
-                <label for="departmentID_edit">Department ID:</label><br>
+                <label for="departmentID_edit"><strong>Department ID:</strong></label><br>
                 <input type="text" id="departmentID_edit" name="departmentID_edit"><br><br>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="delete_edit">Delete</button>
                 <input type="submit" class="btn btn-primary" value="Submit">
               </form> 
             </div>

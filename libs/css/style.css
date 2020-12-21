@@ -1,7 +1,7 @@
 .header {
   display: flex;
   margin-top: 0;
-  padding:0;
+  padding-top:5em;
   margin-left: 35%;
 
 }
@@ -11,10 +11,13 @@
 }
 
 #logo {
-  margin: auto;
+  margin-top: 1em;
+  left: 100px;
+  display: inline-block;
+  position: absolute;
+  z-index: -1;
   max-width: 100%;
   padding: 0;
-  z-index: -1;
 }
 
 /* Dropdown Button */
@@ -205,6 +208,12 @@
   outline:none;
 }
 
+#edit-employee {
+  text-align: left;
+  min-height: 600px;
+  max-height: 100%;
+}
+
 /* Dropdown button on hover & focus */
 .detail-button:hover, .detail-button:focus {
   border:thin solid lightblue;
@@ -226,4 +235,9 @@ span {
   ul li:nth-child(n+5) {
     display:none;
   }
+}
+
+.center_div{
+  margin: 0 auto;
+  width:80% /* value of your choice which suits your alignment */
 }
