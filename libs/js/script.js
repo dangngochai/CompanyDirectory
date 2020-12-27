@@ -1,5 +1,5 @@
 var department_list, location_list;
-
+/*
 //function to add new department
 function addDepartment(name,locationID) {
   $.ajax({
@@ -90,6 +90,7 @@ function addEmployee(id, firstName, lastName, jobTitle, email, departmentID) {
     }
   })
 };
+*/
 
 //function to get employees in a department
 function getEmployeesByDepartment(departmentID) {
@@ -299,7 +300,7 @@ function myFunction() {
     }                        
  
 
-    document.getElementById("myDropdown").classList.toggle("show");
+    $('#myDropdown').toggle('show');
     $('.department').click(function(e){
     var id = $(this).data('id');
     var employeesDepartmentID = [];
@@ -310,6 +311,7 @@ function myFunction() {
       $('#'+ employeesDepartmentID [i] + '.usercard').show();
     }
     $('span ').hide();
+    $('#myDropdown').hide();
     });
 
     $('.location').click(function(e){
@@ -322,6 +324,7 @@ function myFunction() {
       $('#'+ employeesLocationID[i] + '.usercard').show();
     }
     $('span ').hide();
+    $('#myDropdown').hide();
     });
 }
   //function to auto search for department or location name from filter list
@@ -514,10 +517,22 @@ $('#select').on('click', function (e) {
   var shownVal = document.getElementById("select-change").value;
   if (shownVal == "add-department") {
     $('#add-department').modal('show');
+    var location_list = getAllLocations();
+    for (i = 0; i < location_list['id'].length; i++) {
+      $("#locationID").append('<option value="' + (location_list['id'][i]) + '">' + location_list['name'][i] + '</option>');
+    }  
   } else if (shownVal == "add-location") {
     $('#add-location').modal('show');
+    var location_list = getAllLocations();
+    $('#locaID').attr("value", location_list['id'].length + 1);
   } else if (shownVal == "add-employee"){
     $('#add-employee').modal('show');
+    var employee_list = getAllEmployees();
+    $('#employeeID').attr("value", employee_list['id'].length + 1);
+    var department_list = getAllDepartments();
+    for (i = 0; i < department_list['id'].length; i++) {
+      $("#departmentID").append('<option value="' + (department_list['id'][i]) + '">' + department_list['name'][i] + '</option>');
+    }  
   }
 });
 
@@ -649,7 +664,11 @@ function edit_detail(obj) {
         $('#lastName_edit').attr("value",result['data'][0]['lastName']);
         $('#jobTitle_edit').attr("value",result['data'][0]['jobTitle']);
         $('#email_edit').attr("value",result['data'][0]['email']);
-        $('#departmentID_edit').attr("value",result['data'][0]['departmentID']);
+        var department_list = getAllDepartments();
+        for (i = 0; i < department_list['id'].length; i++) {
+          $("#departmentID_edit").append('<option value="' + (department_list['id'][i]) + '">' + department_list['name'][i] + '</option>');
+        }   
+        $("#departmentID_edit").val(result['data'][0]['departmentID']);
         $('#edit-employee').modal('show');
     },
     error: function(jqXHR, textStatus, errorThrown) {

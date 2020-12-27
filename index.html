@@ -13,7 +13,7 @@
     <title>Company Directory</title>
 </head>
 <body>
-    <img id="logo" src="logo.PNG" alt="logo" width="200px" height="50px"> <br>
+    <img id="logo" src="logo.PNG" alt="logo" width="400px" height="100px"> <br>
     <div class= "header">
         <input list="employees" id="searchBox" placeholder="Search..">
         <datalist id="employees">
@@ -31,6 +31,10 @@
                 </div>
             </div>
         </div>
+        <div class="header-button">
+          <button type="button" class="btn btn-primary" id="new-button" data-toggle="modal" data-target="#modalQuickView">New</button>
+          <button type="button" class="btn btn-primary" id="delete-button" data-toggle="modal" data-target="#delete">Delete</button>
+        </div>
     </div> 
     <!--All the user cards-->
     <ul class="card-columns" id="cards">
@@ -39,8 +43,6 @@
       <span>Showmore</span>
       <br>
       <br>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalQuickView">Add New</button>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delete">Delete</button>
     </div>
 
     <!--Modal for adding new record-->
@@ -48,23 +50,30 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">
+                  New Record
+              </h4>
+            </div>
             <div class="modal-body">
-              <div class="row">
-                      <p><label>Add New:
-                        <select id="select-change">
-                          <option value="add-employee">Employee</option>
-                          <option value="add-department">Department</option>
-                          <option value="add-location">Location</option>
-                        </select>
-                      </label></p>
-                      <menu>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" id="select">Select
-                          <i class="fas fa-select ml-2" aria-hidden="true"></i>
-                        </button>
-                      </menu>
-                    </form>
-              </div>
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label  class="col-sm-2 control-label"><strong>Add New:</strong></label>
+                  <select id="select-change">
+                    <option value="add-employee">Employee</option>
+                    <option value="add-department">Department</option>
+                    <option value="add-location">Location</option>
+                  </select>
+                </div>
+              </form>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" id="select">Select
+                      <i class="fas fa-select ml-2" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
@@ -74,17 +83,36 @@
     aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+                Add New Department
+            </h4>
+          </div>
           <div class="modal-body">
-            <div class="row">
-              <form action="libs/php/insertDepartment.php" method="POST">
-                <label for="departmentName">Name:</label><br>
-                <input type="text" id="departmentName" name="departmentName"><br>
-                <label for="locationID">Location ID:</label><br>
-                <input type="text" id="locationID" name="locationID"><br><br>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Submit">
-              </form> 
-            </div>
+            <form class="form-horizontal" role="form" action="libs/php/insertDepartment.php" method="POST">
+              <div class="form-group">
+                <label  class="col-sm-2 control-label"
+                          for="departmentName"><strong>Name:</strong></label>
+                <div class="col-sm-10">
+                  <input type="text" id="departmentName" class="form-control" name="departmentName">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"
+                      for="locationID"><strong>Location:</strong></label>
+                <div class="col-sm-10">
+                  <select id="locationID" class="form-control" name="locationID"></select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+              </div>
+            </form>
+
           </div>
         </div>
       </div>
@@ -94,17 +122,35 @@
     aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+                Add New Location
+            </h4>
+          </div>
           <div class="modal-body">
-            <div class="row">
-              <form action="libs/php/insertLocation.php" method="POST">
-                <label for="locaID">Location ID:</label><br>
-                <input type="text" id="locaID" name="locaID"><br>
-                <label for="locationName">Location Name:</label><br>
-                <input type="text" id="locationName" name="locationName"><br><br>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Submit">
-              </form> 
-            </div>
+            <form class="form-horizontal" role="form" action="libs/php/insertLocation.php" method="POST">
+              <div class="form-group">
+                <label  class="col-sm-2 control-label"
+                    for="locaID"><strong>Location ID:</strong></label>
+                <div class="col-sm-4">
+                  <input type="text" id="locaID" name="locaID" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label"
+                    for="locationName"><strong>Location Name:</strong></label>
+                <div class="col-sm-10">
+                    <input type="text" id="locationName" class="form-control" name="locationName">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -114,25 +160,67 @@
     aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+                Add New Employee
+            </h4>
+          </div>
           <div class="modal-body">
-            <div class="row">
-              <form action="libs/php/insertEmployee.php" method="POST">
-                <label for="employeeID">ID:</label><br>
-                <input type="text" id="employeeID" name="employeeID"><br>
-                <label for="firstName">First Name:</label><br>
-                <input type="text" id="firstName" name="firstName"><br>
-                <label for="lastName">Last Name:</label><br>
-                <input type="text" id="lastName" name="lastName"><br>
-                <label for="jobTitle">Job Title:</label><br>
-                <input type="text" id="jobTitle" name="jobTitle"><br>
-                <label for="email">Email:</label><br>
-                <input type="text" id="email" name="email"><br>
-                <label for="departmentID">Department ID:</label><br>
-                <input type="text" id="departmentID" name="departmentID"><br><br>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Submit">
-              </form> 
-            </div>
+              <form class="form-horizontal" role="form" action="libs/php/insertEmployee.php" method="POST">
+                <div class="form-group">
+                  <label  class="col-sm-2 control-label"
+                      for="employeeID"><strong>ID:</strong></label>
+                  <div class="col-sm-4">
+                      <input type="text" id="employeeID" name="employeeID" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="firstName"><strong>First Name:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="firstName" class="form-control" name="firstName">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="lastName"><strong>Last Name:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="lastName" class="form-control" name="lastName">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="jobTitle"><strong>Job Title:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="jobTitle" class="form-control" name="jobTitle">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="email"><strong>Email:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="email" class="form-control" name="email">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="departmentID"><strong>Department:</strong></label>
+                  <div class="col-sm-10">
+                      <select id="departmentID" class="form-control" name="departmentID"></select>
+                  </div>
+                </div>
+  
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                  </div>
+                </div>
+              </form>
           </div>
         </div>
       </div>
@@ -143,26 +231,32 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">
+                  Delete Record
+              </h4>
+            </div>
             <div class="modal-body">
-              <div class="row">
-                      <p><label>Delete:
-                        <select id="select-delete">
-                          <option value="delete-employee">Employee</option>
-                          <option value="delete-department">Department</option>
-                          <option value="delete-location">Location</option>
-                        </select>
-                      </label></p>
-                      <p>
-                      <select id="value-delete">
-                      </select>
-                      </p>
-                      <menu>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" id="delete-item">Delete
-                          <i class="fas fa-select ml-2" aria-hidden="true"></i>
-                        </button>
-                      </menu>
-              </div>
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label  class="col-sm-2 control-label"><strong>Delete:</strong></label>
+                  <select id="select-delete">
+                    <option value="delete-employee">Employee</option>
+                    <option value="delete-department">Department</option>
+                    <option value="delete-location">Location</option>
+                  </select>
+                  <select class="col-sm-4" id="value-delete">
+                  </select>
+                </div>
+              </form>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" id="delete-item">Delete
+                      <i class="fas fa-select ml-2" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
@@ -185,26 +279,68 @@
     aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+                Edit Employee
+            </h4>
+          </div>
           <div class="modal-body">
-            <div class="row card-body">
-              <form action="libs/php/updateEmployee.php" method="POST" class="center_div">
-                <label for="id_edit"><strong>ID:</strong></label><br>
-                <input type="text" id="id_edit" name="id_edit" readonly><br>
-                <label for="firstName_edit"><strong>First Name:</strong></label><br>
-                <input type="text" id="firstName_edit" name="firstName_edit"><br>
-                <label for="lastName_edit"><strong>Last Name:</strong></label><br>
-                <input type="text" id="lastName_edit" name="lastName_edit"><br>
-                <label for="jobTitle_edit"><strong>Job Title:</strong></label><br>
-                <input type="text" id="jobTitle_edit" name="jobTitle_edit"><br>
-                <label for="email_edit"><strong>Email:</strong></label><br>
-                <input type="text" id="email_edit" name="email_edit"><br>
-                <label for="departmentID_edit"><strong>Department ID:</strong></label><br>
-                <input type="text" id="departmentID_edit" name="departmentID_edit"><br><br>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-secondary" id="delete_edit">Delete</button>
-                <input type="submit" class="btn btn-primary" value="Submit">
-              </form> 
-            </div>
+              <form class="form-horizontal" role="form" action="libs/php/updateEmployee.php" method="POST">
+                <div class="form-group">
+                  <label  class="col-sm-2 control-label"
+                      for="id_edit"><strong>ID:</strong></label>
+                  <div class="col-sm-4">
+                      <input type="text" id="id_edit" name="id_edit" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="firstName_edit"><strong>First Name:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="firstName_edit" class="form-control" name="firstName_edit">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="lastName_edit"><strong>Last Name:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="lastName_edit" class="form-control" name="lastName_edit">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="jobTitle_edit"><strong>Job Title:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="jobTitle_edit" class="form-control" name="jobTitle_edit">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="email_edit"><strong>Email:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="email_edit" class="form-control" name="email_edit">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-10 control-label"
+                      for="departmentID_edit"><strong>Department:</strong></label>
+                  <div class="col-sm-10">
+                      <select id="departmentID_edit" class="form-control" name="departmentID_edit"></select>
+                  </div>
+                </div>
+  
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" id="delete_edit">Delete</button>
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                  </div>
+                </div>
+              </form>
           </div>
         </div>
       </div>
