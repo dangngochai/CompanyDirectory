@@ -1,18 +1,39 @@
 var department_list, location_list;
-/*
-//function to add new department
-function addDepartment(name,locationID) {
-  $.ajax({
-    url: "libs/php/insertDepartment.php",
+
+// When the user scrolls the page, execute myFunction
+window.onscroll = function() {myHeader()};
+
+// Get the header
+var header = document.getElementById("myHeader");
+
+// Get the offset position of the navbar
+var sticky = header.offsetTop;
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myHeader() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}
+
+//function to get employee detail by ID
+function getEmployeeDetailByID(id) {
+  var employee_detail= {};
+   $.ajax({
+    url: "libs/php/getDetailByID.php",
     type: 'POST',
+    data:{id:id},
     dataType: 'json',
-    data: {
-      name: name,
-      locationID: locationID
-    },
     async: false,
     success: function(result) {
-      alert('Department added!')                
+        employee_detail['id'] = id;
+        employee_detail['firstName'] = result['data'][0]['firstName'];
+        employee_detail['lastName'] = result['data'][0]['lastName'];
+        employee_detail['jobTitle'] = result['data'][0]['jobTitle'];
+        employee_detail['email'] = result['data'][0]['email'];
+        employee_detail['departmentID'] = result['data'][0]['departmentID'];
     },
     error: function(jqXHR, textStatus, errorThrown) {
         //error code
@@ -27,21 +48,22 @@ function addDepartment(name,locationID) {
         console.log(errorThrown);
     }
   })
+  return employee_detail;
 };
 
-//function to add new location
-function addLocation(id,name) {
-  $.ajax({
-    url: "libs/php/insertLocation.php",
+//function to get department detail by ID
+function getDepartmentDetailByID(id) {
+  var department_detail= {};
+   $.ajax({
+    url: "libs/php/getDepartmentByID.php",
     type: 'POST',
+    data:{id:id},
     dataType: 'json',
-    data: {
-      id: id,
-      name: name
-    },
     async: false,
     success: function(result) {
-      alert('Location added!')                
+        department_detail['id'] = id;
+        department_detail['name'] = result['data'][0]['name'];
+        department_detail['locationID'] = result['data'][0]['locationID'];
     },
     error: function(jqXHR, textStatus, errorThrown) {
         //error code
@@ -56,25 +78,21 @@ function addLocation(id,name) {
         console.log(errorThrown);
     }
   })
+  return department_detail;
 };
 
-//function to add new employee
-function addEmployee(id, firstName, lastName, jobTitle, email, departmentID) {
-  $.ajax({
-    url: "libs/php/insertEmployee.php",
+//function to get location detail by ID
+function getLocationDetailByID(id) {
+  var location_detail= {};
+   $.ajax({
+    url: "libs/php/getLocationByID.php",
     type: 'POST',
+    data:{id:id},
     dataType: 'json',
-    data: {
-      id: id,
-      firstName: firstName,
-      lastName: lastName,
-      jobTitle: jobTitle,
-      email: email,
-      departmentID: departmentID
-    },
     async: false,
     success: function(result) {
-      alert('Employee added!')                
+        location_detail['id'] = id;
+        location_detail['name'] = result['data'][0]['name'];
     },
     error: function(jqXHR, textStatus, errorThrown) {
         //error code
@@ -89,8 +107,8 @@ function addEmployee(id, firstName, lastName, jobTitle, email, departmentID) {
         console.log(errorThrown);
     }
   })
+  return location_detail;
 };
-*/
 
 //function to get employees in a department
 function getEmployeesByDepartment(departmentID) {
@@ -347,6 +365,9 @@ function myFunction() {
   
 
 $(document).ready(function() {
+    $("#employee-record").hide();
+    $("#department-record").hide();
+    $("#location-record").hide();
     $.ajax({
       url: "libs/php/getAll.php",
       type: 'POST',
@@ -492,6 +513,7 @@ $(document).ready(function() {
     }); 		
 });
 
+/*
 //to show all the user cards when click show more
 $(function () {
   $('span').click(function () {
@@ -500,7 +522,7 @@ $(function () {
           $('span ').hide();
       }
   });
-});
+});*/
 
 //function for search box to search for a user card
 $('#searchBox').on('change', function (e) {
@@ -512,20 +534,26 @@ $('#searchBox').on('change', function (e) {
 
 });
 
+$('#action-employee').on('change', function (e) {
+  $("#employee-record").empty();
+  var shownVal = document.getElementById("action-employee").value;
+  var $dropdown = $("#employee-record");
+  if (shownVal == "edit-employee" || shownVal == "delete-employee" ) {
+    var employee_list = getAllEmployees();
+    for (i = 0; i < employee_list['id'].length; i++) {
+      $dropdown.append($('<option/>').val(employee_list['id'][i]).text(employee_list['name'][i]));
+    }
+    $dropdown.show();
+  } else {
+    $("#employee-record").hide();
+  }
+}); 
+
 //activate correct modal when user click add new button
-$('#select').on('click', function (e) {
-  var shownVal = document.getElementById("select-change").value;
-  if (shownVal == "add-department") {
-    $('#add-department').modal('show');
-    var location_list = getAllLocations();
-    for (i = 0; i < location_list['id'].length; i++) {
-      $("#locationID").append('<option value="' + (location_list['id'][i]) + '">' + location_list['name'][i] + '</option>');
-    }  
-  } else if (shownVal == "add-location") {
-    $('#add-location').modal('show');
-    var location_list = getAllLocations();
-    $('#locaID').attr("value", location_list['id'].length + 1);
-  } else if (shownVal == "add-employee"){
+$('#select-employee').on('click', function (e) {
+  var shownVal = document.getElementById("action-employee").value;
+  var dropdownVal = $("#employee-record").val();
+  if (shownVal == "add-employee") {
     $('#add-employee').modal('show');
     var employee_list = getAllEmployees();
     $('#employeeID').attr("value", employee_list['id'].length + 1);
@@ -533,8 +561,165 @@ $('#select').on('click', function (e) {
     for (i = 0; i < department_list['id'].length; i++) {
       $("#departmentID").append('<option value="' + (department_list['id'][i]) + '">' + department_list['name'][i] + '</option>');
     }  
+  } else if (shownVal == "edit-employee") {
+      var result = getEmployeeDetailByID(dropdownVal)
+      $('#id_edit').attr("value", dropdownVal);
+      $('#firstName_edit').attr("value",result['firstName']);
+      $('#lastName_edit').attr("value",result['lastName']);
+      $('#jobTitle_edit').attr("value",result['jobTitle']);
+      $('#email_edit').attr("value",result['email']);
+      var department_list = getAllDepartments();
+      for (i = 0; i < department_list['id'].length; i++) {
+        $("#departmentID_edit").append('<option value="' + (department_list['id'][i]) + '">' + department_list['name'][i] + '</option>');
+      }   
+      $("#departmentID_edit").val(result['departmentID']);
+      $('#edit-employee').modal('show');
+  } else if (shownVal == "delete-employee"){
+      if(confirm("Are you sure you want to remove this employee?"))
+        {
+          $.ajax({
+            url:"libs/php/deleteEmployeeByID.php",
+            method:"POST",
+            data:{id:dropdownVal},
+            success:function(result){
+              alert('Employee deleted!');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              //error code
+              alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+      
+              $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+              console.log('jqXHR:');
+              console.log(jqXHR);
+              console.log('textStatus:');
+              console.log(textStatus);
+              console.log('errorThrown:');
+              console.log(errorThrown);
+            }
+          });
+        } 
   }
 });
+
+$('#action-department').on('change', function (e) {
+  $("#department-record").empty();
+  var shownVal = document.getElementById("action-department").value;
+  var $dropdown = $("#department-record");
+  if (shownVal == "edit-department" || shownVal == "delete-department" ) {
+    var department_list = getAllDepartments();
+    for (i = 0; i < department_list['id'].length; i++) {
+      $dropdown.append($('<option/>').val(department_list['id'][i]).text(department_list['name'][i]));
+    }
+    $dropdown.show();
+  } else {
+    $("#department-record").hide();
+  }
+}); 
+
+$('#select-department').on('click', function (e) {
+  var shownVal = document.getElementById("action-department").value;
+  var dropdownVal = $("#department-record").val();
+  if (shownVal == "add-department") {
+    $('#add-department').modal('show');
+    var location_list = getAllLocations();
+    for (i = 0; i < location_list['id'].length; i++) {
+      $("#locationID").append('<option value="' + (location_list['id'][i]) + '">' + location_list['name'][i] + '</option>');
+    }  
+   } else if (shownVal == "edit-department") {
+      var result = getDepartmentDetailByID(dropdownVal)
+      $('#depID_edit').attr("value", dropdownVal);
+      $('#depName_edit').attr("value",result['name']);
+      var location_list = getAllLocations();
+      for (i = 0; i < location_list['id'].length; i++) {
+        $("#locationID_edit").append('<option value="' + (location_list['id'][i]) + '">' + location_list['name'][i] + '</option>');
+      }   
+      $("#locationID_edit").val(result['locationID']);
+      $('#edit-department').modal('show');
+  } else if (shownVal == "delete-department"){
+      if(confirm("Are you sure you want to remove this department?"))
+        {
+          $.ajax({
+            url:"libs/php/deleteDepartmentByID.php",
+            method:"POST",
+            data:{id:dropdownVal},
+            success:function(result){
+              alert('Department deleted!');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              //error code
+              alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+      
+              $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+              console.log('jqXHR:');
+              console.log(jqXHR);
+              console.log('textStatus:');
+              console.log(textStatus);
+              console.log('errorThrown:');
+              console.log(errorThrown);
+            }
+          });
+        } 
+  }
+});
+
+$('#action-location').on('change', function (e) {
+  $("#location-record").empty();
+  var shownVal = document.getElementById("action-location").value;
+  var $dropdown = $("#location-record");
+  if (shownVal == "edit-location" || shownVal == "delete-location" ) {
+    var location_list = getAllLocations();
+    for (i = 0; i < location_list['id'].length; i++) {
+      $dropdown.append($('<option/>').val(location_list['id'][i]).text(location_list['name'][i]));
+    }
+    $dropdown.show();
+  } else {
+    $("#location-record").hide();
+  }
+});
+
+$('#select-location').on('click', function (e) {
+  var shownVal = document.getElementById("action-location").value;
+  var dropdownVal = $("#location-record").val();
+  if (shownVal == "add-location") {
+    $('#add-location').modal('show');
+    var location_list = getAllLocations();
+    $('#locaID').attr("value", location_list['id'].length + 1);
+
+   } else if (shownVal == "edit-location") {
+      var result = getLocationDetailByID(dropdownVal)
+      $('#locID_edit').attr("value", dropdownVal);
+      $('#locName_edit').attr("value",result['name']);
+      $('#edit-location').modal('show');
+  } else if (shownVal == "delete-location"){
+      if(confirm("Are you sure you want to remove this location?"))
+        {
+          $.ajax({
+            url:"libs/php/deleteLocationByID.php",
+            method:"POST",
+            data:{id:dropdownVal},
+            success:function(result){
+              alert('Location deleted!');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              //error code
+              alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+      
+              $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+              console.log('jqXHR:');
+              console.log(jqXHR);
+              console.log('textStatus:');
+              console.log(textStatus);
+              console.log('errorThrown:');
+              console.log(errorThrown);
+            }
+          });
+        } 
+  }
+});
+
+
+
+
 
 //show the list of records when user select from delete menu
 $('#select-delete').on('change', function (e) {
@@ -652,38 +837,18 @@ $('#delete-item').on('click', function (e) {
 //when user click edit detail for a card
 function edit_detail(obj) {
   var id = obj.value;
-  $.ajax({
-    url: "libs/php/getDetailByID.php",
-    type: 'POST',
-    data:{id:id},
-    dataType: 'json',
-    async: false,
-    success: function(result) {
-        $('#id_edit').attr("value", id);
-        $('#firstName_edit').attr("value",result['data'][0]['firstName']);
-        $('#lastName_edit').attr("value",result['data'][0]['lastName']);
-        $('#jobTitle_edit').attr("value",result['data'][0]['jobTitle']);
-        $('#email_edit').attr("value",result['data'][0]['email']);
-        var department_list = getAllDepartments();
-        for (i = 0; i < department_list['id'].length; i++) {
-          $("#departmentID_edit").append('<option value="' + (department_list['id'][i]) + '">' + department_list['name'][i] + '</option>');
-        }   
-        $("#departmentID_edit").val(result['data'][0]['departmentID']);
-        $('#edit-employee').modal('show');
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        //error code
-        alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
-
-        $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-        console.log('jqXHR:');
-        console.log(jqXHR);
-        console.log('textStatus:');
-        console.log(textStatus);
-        console.log('errorThrown:');
-        console.log(errorThrown);
-    }
-  });
+  var result = getEmployeeDetailByID(id)
+  $('#id_edit').attr("value", id);
+  $('#firstName_edit').attr("value",result['firstName']);
+  $('#lastName_edit').attr("value",result['lastName']);
+  $('#jobTitle_edit').attr("value",result['jobTitle']);
+  $('#email_edit').attr("value",result['email']);
+  var department_list = getAllDepartments();
+  for (i = 0; i < department_list['id'].length; i++) {
+     $("#departmentID_edit").append('<option value="' + (department_list['id'][i]) + '">' + department_list['name'][i] + '</option>');
+  }   
+  $("#departmentID_edit").val(result['departmentID']);
+  $('#edit-employee').modal('show');
 
   $('#delete_edit').on('click', function (e) {
     if(confirm("Are you sure you want to remove this employee?"))

@@ -1,14 +1,43 @@
 .header {
-  display: flex;
-  margin: 0 0 0 20%;
-  padding:5em 0 0 0;
+  padding: 10px 16px;
+  background:#5392e1;
+  color: #f1f1f1;
+  width: 100%;
+}
+
+.content {
+  padding: 16px;
+}
+
+/* The sticky class is added to the header with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 102px;
+}
+
+.header-search {
+  padding-top: 1em;
 }
 
 .header-button {
   display: flex;
+  padding-top: 1em;
 }
 
-#new-button {
+.header-button .btn {
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+    outline:none;
+}
+
+#employee-button, #department-button {
   margin-right: 1em;
 }
 
@@ -18,7 +47,6 @@
 
 #logo {
   margin-top: 1em;
-  left: 100px;
   display: inline-block;
   position: absolute;
   z-index: -1;
@@ -63,7 +91,6 @@
   .dropdown {
     position: relative;
     display: inline-block;
-    float: left;
     margin-left: 2em;
     margin-right: 2em;
   }
@@ -71,6 +98,7 @@
   /* Dropdown Content (Hidden by Default) */
   .dropdown-content {
     display: none;
+    color: black;
     position: absolute;
     background-color: #f6f6f6;
     min-width: 200px;
@@ -226,9 +254,9 @@
 }
 
 
-ul li:nth-child(n+17) {
+/* ul li:nth-child(n+17) {
   display:none;
-}
+} */
 ul li {
   border: 1px solid #aaa;
 }
@@ -237,11 +265,11 @@ span {
   color: #f00;
 }
 
-@media (max-height: 640px) {
+/*@media (max-height: 640px) {
   ul li:nth-child(n+5) {
     display:none;
   }
-}
+}*/
 
 .center_div{
   margin: 0 auto;

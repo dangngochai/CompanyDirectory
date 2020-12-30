@@ -14,62 +14,69 @@
 </head>
 <body>
     <img id="logo" src="logo.PNG" alt="logo" width="400px" height="100px"> <br>
-    <div class= "header">
-        <input list="employees" id="searchBox" placeholder="Search..">
-        <datalist id="employees">
-        </datalist>
-   
-        <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn" ><i class="fa fa-filter"></i></button>
-            <div id="myDropdown" class="dropdown-content">
-                <input type="text" placeholder="Filter by.." id="myInput" onkeyup="filterFunction()">
-                <h4>Department</h4>
-                <div id="department" >      
-                </div>
-                <h4>Location</h4>
-                <div id="location" >
-                </div>
-            </div>
+    <div class= "header" id="myHeader">
+      <div class="row">
+        <div class="col-sm-6 text-center header-search">
+          <input list="employees" id="searchBox" placeholder="Search..">
+          <datalist id="employees">
+          </datalist>
+          <div class="dropdown">
+              <button onclick="myFunction()" class="dropbtn" ><i class="fa fa-filter"></i></button>
+              <div id="myDropdown" class="dropdown-content">
+                  <input type="text" placeholder="Filter by.." id="myInput" onkeyup="filterFunction()">
+                  <h4>Department</h4>
+                  <div id="department" >      
+                  </div>
+                  <h4>Location</h4>
+                  <div id="location" >
+                  </div>
+              </div>
+          </div>
         </div>
-        <div class="header-button">
-          <button type="button" class="btn btn-primary" id="new-button" data-toggle="modal" data-target="#modalQuickView">New</button>
-          <button type="button" class="btn btn-primary" id="delete-button" data-toggle="modal" data-target="#delete">Delete</button>
+
+        <div class="col-sm-6 text-center header-button">
+          <button type="button" class="btn btn-light" id="employee-button" data-toggle="modal" data-target="#employee-manage">Employee</button>
+          <button type="button" class="btn btn-light" id="department-button" data-toggle="modal" data-target="#department-manage">Department</button>
+          <button type="button" class="btn btn-light" id="location-button" data-toggle="modal" data-target="#location-manage">Location</button>
         </div>
+      </div>
     </div> 
-    <!--All the user cards-->
-    <ul class="card-columns" id="cards">
-    </ul>
-    <div class="center">
-      <span>Showmore</span>
-      <br>
-      <br>
-    </div>
-
-    <!--Modal for adding new record-->
-    <div class="modal fade" id="modalQuickView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="content">
+      <!--All the user cards-->
+      <ul class="card-columns" id="cards">
+      </ul>
+      <!--<div class="center">
+        <span>Showmore</span>
+        <br>
+        <br>
+      </div>-->
+      <!--Employee page-->
+      <div class="modal fade" id="employee-manage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" id="myModalLabel">
-                  New Record
+                  Manage Employee 
               </h4>
             </div>
             <div class="modal-body">
-              <form class="form-horizontal" role="form">
-                <div class="form-group">
-                  <label  class="col-sm-2 control-label"><strong>Add New:</strong></label>
-                  <select id="select-change">
-                    <option value="add-employee">Employee</option>
-                    <option value="add-department">Department</option>
-                    <option value="add-location">Location</option>
-                  </select>
-                </div>
-              </form>
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label  class="col-sm-2 control-label"><strong>Action:</strong></label>
+                    <select id="action-employee">
+                      <option value="add-employee">New</option>
+                      <option value="edit-employee">Edit</option>
+                      <option value="delete-employee">Delete</option>
+                    </select>
+                    <select class="col-sm-4" id="employee-record">
+                    </select>
+                  </div>
+                </form>
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" id="select">Select
+                    <button class="btn btn-primary" id="select-employee">Select
                       <i class="fas fa-select ml-2" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -79,273 +86,438 @@
         </div>
     </div>
 
-    <div class="modal fade" id="add-department" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!--Department page-->
+    <div class="modal fade" id="department-manage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel">
-                Add New Department
+                Manage Department 
             </h4>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal" role="form" action="libs/php/insertDepartment.php" method="POST">
-              <div class="form-group">
-                <label  class="col-sm-2 control-label"
-                          for="departmentName"><strong>Name:</strong></label>
-                <div class="col-sm-10">
-                  <input type="text" id="departmentName" class="form-control" name="departmentName">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label"
-                      for="locationID"><strong>Location:</strong></label>
-                <div class="col-sm-10">
-                  <select id="locationID" class="form-control" name="locationID"></select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Submit">
-                </div>
-              </div>
-            </form>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="add-location" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">
-                Add New Location
-            </h4>
-          </div>
-          <div class="modal-body">
-            <form class="form-horizontal" role="form" action="libs/php/insertLocation.php" method="POST">
-              <div class="form-group">
-                <label  class="col-sm-2 control-label"
-                    for="locaID"><strong>Location ID:</strong></label>
-                <div class="col-sm-4">
-                  <input type="text" id="locaID" name="locaID" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-4 control-label"
-                    for="locationName"><strong>Location Name:</strong></label>
-                <div class="col-sm-10">
-                    <input type="text" id="locationName" class="form-control" name="locationName">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input type="submit" class="btn btn-primary" value="Submit">
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">
-                Add New Employee
-            </h4>
-          </div>
-          <div class="modal-body">
-              <form class="form-horizontal" role="form" action="libs/php/insertEmployee.php" method="POST">
+              <form class="form-horizontal" role="form">
                 <div class="form-group">
-                  <label  class="col-sm-2 control-label"
-                      for="employeeID"><strong>ID:</strong></label>
-                  <div class="col-sm-4">
-                      <input type="text" id="employeeID" name="employeeID" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="firstName"><strong>First Name:</strong></label>
-                  <div class="col-sm-10">
-                      <input type="text" id="firstName" class="form-control" name="firstName">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="lastName"><strong>Last Name:</strong></label>
-                  <div class="col-sm-10">
-                      <input type="text" id="lastName" class="form-control" name="lastName">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="jobTitle"><strong>Job Title:</strong></label>
-                  <div class="col-sm-10">
-                      <input type="text" id="jobTitle" class="form-control" name="jobTitle">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="email"><strong>Email:</strong></label>
-                  <div class="col-sm-10">
-                      <input type="text" id="email" class="form-control" name="email">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="departmentID"><strong>Department:</strong></label>
-                  <div class="col-sm-10">
-                      <select id="departmentID" class="form-control" name="departmentID"></select>
-                  </div>
-                </div>
-  
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                  </div>
+                  <label  class="col-sm-2 control-label"><strong>Action:</strong></label>
+                  <select id="action-department">
+                    <option value="add-department">New</option>
+                    <option value="edit-department">Edit</option>
+                    <option value="delete-department">Delete</option>
+                  </select>
+                  <select class="col-sm-4" id="department-record">
+                  </select>
                 </div>
               </form>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button class="btn btn-primary" id="select-department">Select
+                    <i class="fas fa-select ml-2" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
           </div>
         </div>
       </div>
+  </div>
+
+  <!--Location page-->
+  <div class="modal fade" id="location-manage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">
+              Manage Location
+          </h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <label  class="col-sm-2 control-label"><strong>Action:</strong></label>
+                <select id="action-location">
+                  <option value="add-location">New</option>
+                  <option value="edit-location">Edit</option>
+                  <option value="delete-location">Delete</option>
+                </select>
+                <select class="col-sm-4" id="location-record">
+                </select>
+              </div>
+            </form>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" id="select-location">Select
+                  <i class="fas fa-select ml-2" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+      </div>
     </div>
 
-    <!--Modal for deleting record-->
-    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+      <!--Modal for adding new record -->
+
+      <div class="modal fade" id="add-department" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" id="myModalLabel">
-                  Delete Record
+                  Add New Department
               </h4>
             </div>
             <div class="modal-body">
-              <form class="form-horizontal" role="form">
-                <div class="form-group">
-                  <label  class="col-sm-2 control-label"><strong>Delete:</strong></label>
-                  <select id="select-delete">
-                    <option value="delete-employee">Employee</option>
-                    <option value="delete-department">Department</option>
-                    <option value="delete-location">Location</option>
-                  </select>
-                  <select class="col-sm-4" id="value-delete">
-                  </select>
-                </div>
-              </form>
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" id="delete-item">Delete
-                      <i class="fas fa-select ml-2" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                </div>
-            </div>
-          </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="alert_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-              <p id="alert_message"></p>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-    </div>
-
-    <!--Modal for editting record-->
-    <div class="modal fade" id="edit-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">
-                Edit Employee
-            </h4>
-          </div>
-          <div class="modal-body">
-              <form class="form-horizontal" role="form" action="libs/php/updateEmployee.php" method="POST">
+              <form class="form-horizontal" role="form" action="libs/php/insertDepartment.php" method="POST">
                 <div class="form-group">
                   <label  class="col-sm-2 control-label"
-                      for="id_edit"><strong>ID:</strong></label>
-                  <div class="col-sm-4">
-                      <input type="text" id="id_edit" name="id_edit" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                            for="departmentName"><strong>Name:</strong></label>
+                  <div class="col-sm-10">
+                    <input type="text" id="departmentName" class="form-control" name="departmentName">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="firstName_edit"><strong>First Name:</strong></label>
+                  <label class="col-sm-2 control-label"
+                        for="locationID"><strong>Location:</strong></label>
                   <div class="col-sm-10">
-                      <input type="text" id="firstName_edit" class="form-control" name="firstName_edit">
+                    <select id="locationID" class="form-control" name="locationID"></select>
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="lastName_edit"><strong>Last Name:</strong></label>
-                  <div class="col-sm-10">
-                      <input type="text" id="lastName_edit" class="form-control" name="lastName_edit">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="jobTitle_edit"><strong>Job Title:</strong></label>
-                  <div class="col-sm-10">
-                      <input type="text" id="jobTitle_edit" class="form-control" name="jobTitle_edit">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="email_edit"><strong>Email:</strong></label>
-                  <div class="col-sm-10">
-                      <input type="text" id="email_edit" class="form-control" name="email_edit">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-10 control-label"
-                      for="departmentID_edit"><strong>Department:</strong></label>
-                  <div class="col-sm-10">
-                      <select id="departmentID_edit" class="form-control" name="departmentID_edit"></select>
-                  </div>
-                </div>
-  
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-secondary" id="delete_edit">Delete</button>
-                    <input type="submit" class="btn btn-primary" value="Submit">
+                    <input type="submit" class="btn btn-primary" value="Submit" onclick="return confirm('Are you sure you want to add this department?')">
                   </div>
                 </div>
               </form>
+
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
+      <div class="modal fade" id="add-location" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">
+                  Add New Location
+              </h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" role="form" action="libs/php/insertLocation.php" method="POST">
+                <div class="form-group">
+                  <label  class="col-sm-2 control-label"
+                      for="locaID"><strong>Location ID:</strong></label>
+                  <div class="col-sm-4">
+                    <input type="text" id="locaID" name="locaID" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label"
+                      for="locationName"><strong>Location Name:</strong></label>
+                  <div class="col-sm-10">
+                      <input type="text" id="locationName" class="form-control" name="locationName">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Submit" onclick="return confirm('Are you sure you want to add this location?')">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">
+                  Add New Employee
+              </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="libs/php/insertEmployee.php" method="POST">
+                  <div class="form-group">
+                    <label  class="col-sm-2 control-label"
+                        for="employeeID"><strong>ID:</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" id="employeeID" name="employeeID" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="firstName"><strong>First Name:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="firstName" class="form-control" name="firstName">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="lastName"><strong>Last Name:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="lastName" class="form-control" name="lastName">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="jobTitle"><strong>Job Title:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="jobTitle" class="form-control" name="jobTitle">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="email"><strong>Email:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="email" class="form-control" name="email">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="departmentID"><strong>Department:</strong></label>
+                    <div class="col-sm-10">
+                        <select id="departmentID" class="form-control" name="departmentID"></select>
+                    </div>
+                  </div>
+    
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <input type="submit" class="btn btn-primary" value="Submit" onclick="return confirm('Are you sure you want to add this employee?')">
+                    </div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Modal for deleting record-->
+      <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">
+                    Delete Record
+                </h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label  class="col-sm-2 control-label"><strong>Delete:</strong></label>
+                    <select id="select-delete">
+                      <option value="delete-employee">Employee</option>
+                      <option value="delete-department">Department</option>
+                      <option value="delete-location">Location</option>
+                    </select>
+                    <select class="col-sm-4" id="value-delete">
+                    </select>
+                  </div>
+                </form>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button class="btn btn-primary" id="delete-item">Delete
+                        <i class="fas fa-select ml-2" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="modal fade" id="alert_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <p id="alert_message"></p>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <!--Modal for editting employee-->
+      <div class="modal fade" id="edit-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="editEmployeeLabel">
+                  Edit Employee
+              </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="libs/php/updateEmployee.php" method="POST">
+                  <div class="form-group">
+                    <label  class="col-sm-2 control-label"
+                        for="id_edit"><strong>ID:</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" id="id_edit" name="id_edit" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="firstName_edit"><strong>First Name:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="firstName_edit" class="form-control" name="firstName_edit">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="lastName_edit"><strong>Last Name:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="lastName_edit" class="form-control" name="lastName_edit">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="jobTitle_edit"><strong>Job Title:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="jobTitle_edit" class="form-control" name="jobTitle_edit">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="email_edit"><strong>Email:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="email_edit" class="form-control" name="email_edit">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="departmentID_edit"><strong>Department:</strong></label>
+                    <div class="col-sm-10">
+                        <select id="departmentID_edit" class="form-control" name="departmentID_edit"></select>
+                    </div>
+                  </div>
+    
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-secondary" id="delete_edit">Delete</button>
+                      <input type="submit" class="btn btn-primary" value="Submit" onclick="return confirm('Are you sure you want to edit this employee?')">
+                    </div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Modal for editting department-->
+      <div class="modal fade" id="edit-department" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="editDepLabel">
+                  Edit Department
+              </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="libs/php/updateDepartment.php" method="POST">
+                  <div class="form-group">
+                    <label  class="col-sm-2 control-label"
+                        for="depID_edit"><strong>ID:</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" id="depID_edit" name="depID_edit" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="depName_edit"><strong>Department Name:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="depName_edit" class="form-control" name="depName_edit">
+                    </div>
+                  </div>
+    
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="locationID_edit"><strong>Location:</strong></label>
+                    <div class="col-sm-10">
+                        <select id="locationID_edit" class="form-control" name="locationID_edit"></select>
+                    </div>
+                  </div>
+    
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-secondary" id="deletedep_edit">Delete</button>
+                      <input type="submit" class="btn btn-primary" value="Submit" onclick="return confirm('Are you sure you want to edit this department?')">
+                    </div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Modal for editting location-->
+      <div class="modal fade" id="edit-location" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="editLocLabel">
+                  Edit Location
+              </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="libs/php/updateLocation.php" method="POST">
+                  <div class="form-group">
+                    <label  class="col-sm-2 control-label"
+                        for="locID_edit"><strong>ID:</strong></label>
+                    <div class="col-sm-4">
+                        <input type="text" id="locID_edit" name="locID_edit" class="form-control" readonly style="background-color:rgb(197, 194, 194) ">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-10 control-label"
+                        for="locName_edit"><strong>Location Name:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="locName_edit" class="form-control" name="locName_edit">
+                    </div>
+                  </div>
+    
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-secondary" id="deleteloc_edit">Delete</button>
+                      <input type="submit" class="btn btn-primary" value="Submit" onclick="return confirm('Are you sure you want to edit this location?')">
+                    </div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
 
     <script type="application/javascript" src="libs/vendors/jquery/jquery-3.5.1.min.js"></script>
     <script type="application/javascript" src="libs/vendors/bootstrap/js/bootstrap.min.js"></script>
